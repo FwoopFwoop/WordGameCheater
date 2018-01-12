@@ -40,7 +40,7 @@ object Main {
     val flags = parseFlags(args).flatten
 
     if (flags.contains(Flag.Scrabble)) {
-      // TODO Sorter.sortScrabble
+      Sorter.sortScrabble(Finder.matchingWords(letters)).foreach(println)
     } else {
       Sorter.sortLenAlpha(Finder.matchingWords(letters)).foreach(println)
     }

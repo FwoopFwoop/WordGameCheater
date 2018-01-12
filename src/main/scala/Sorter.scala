@@ -1,6 +1,33 @@
 package scala
 
 object Sorter {
+
+  case class ScrabbleWord(word: String, score: Int) {
+    def calcScore(word: String): Int = {
+      def scoreLetter(char: Char): Int = {
+        if ("QZ".contains(char)) {
+          10
+        } else if ("JX".contains(char)) {
+          8
+        } else if (char == 'K') {
+          5
+        } else if ("FHVWY".contains(char)) {
+          4
+        } else if ("BCMP".contains(char)) {
+          3
+        } else if ("DG".contains(char)) {
+          2
+        } else 1
+      }
+
+      word.toVector.map(scoreLetter).sum
+    }
+
+    def this(word: String) {
+      this(word, calcScore(word))
+    }
+  }
+
   //Puts the words in descending order by length
   def sortByLength(words: Vector[String]): Vector[String] = {
     words.sortWith((a: String, b: String) => a.length >= b.length)
@@ -34,11 +61,16 @@ object Sorter {
     }
   }
 
-
   //Sorts the words by length then dictionary
   def sortLenAlpha(words: Vector[String]): Vector[String] = {
     splitByLength(sortByLength(words), Vector(), Vector(), words.head.length)
             .map(list => list.sortWith(isAlphabetic).:+("")).flatten
+  }
+
+  //Sorts and labels words by their scrabble score
+  def sortScrabble(words: Vector[String]): Vector[String] = {
+    words.map(w => new ScrabbleWord(w)).sortWith((a, b) => a.score >= b.score)
+            .map(w => w.score + "-" + w.word)
   }
 
 }
