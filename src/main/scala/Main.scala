@@ -24,8 +24,8 @@ object Main {
 
   def parseFlags(args: Array[String]): Option[Vector[Flag]] = {
     def flagFromString(arg: String): Option[Flag] = {
-      if (arg.equalsIgnoreCase("scrabble")
-              || arg.equalsIgnoreCase("-scrabble")) {
+      if (arg.equalsIgnoreCase("-s")
+              || arg.equalsIgnoreCase("--scrabble")) {
         Some(Flag.Scrabble)
       } else None
     }
@@ -37,7 +37,10 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     val letters = parseLetters(args)
-    val flags = parseFlags(args).flatten
+    val flags = parseFlags(args) match{
+      case None => Vector()
+      case Some(v: Vector[Flag]) => v
+    }
 
     if (flags.contains(Flag.Scrabble)) {
       Sorter.sortScrabble(Finder.matchingWords(letters)).foreach(println)

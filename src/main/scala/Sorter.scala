@@ -2,29 +2,29 @@ package scala
 
 object Sorter {
 
-  case class ScrabbleWord(word: String, score: Int) {
-    def calcScore(word: String): Int = {
-      def scoreLetter(char: Char): Int = {
-        if ("QZ".contains(char)) {
-          10
-        } else if ("JX".contains(char)) {
-          8
-        } else if (char == 'K') {
-          5
-        } else if ("FHVWY".contains(char)) {
-          4
-        } else if ("BCMP".contains(char)) {
-          3
-        } else if ("DG".contains(char)) {
-          2
-        } else 1
-      }
-
-      word.toVector.map(scoreLetter).sum
+  def scoreWord(word: String): Int = {
+    def scoreLetter(char: Char): Int = {
+      if ("QZ".contains(char)) {
+        10
+      } else if ("JX".contains(char)) {
+        8
+      } else if (char == 'K') {
+        5
+      } else if ("FHVWY".contains(char)) {
+        4
+      } else if ("BCMP".contains(char)) {
+        3
+      } else if ("DG".contains(char)) {
+        2
+      } else 1
     }
 
-    def this(word: String) {
-      this(word, calcScore(word))
+    word.toVector.map(scoreLetter).sum
+  }
+
+  case class ScrabbleWord(word: String) {
+    def score():Int ={
+      scoreWord(word)
     }
   }
 
